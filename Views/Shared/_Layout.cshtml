@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Westropp Studios Uptime Monitor</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+
+    <div class="modal hide fade" id="feedback">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Feedback or Feature Suggestions</h3>
+        </div>
+        <div class="modal-body">
+            <p>Have some suggestions for features or want to provide some feedback? Use the form below.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-success">Send</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span3">
+                <p class="site-title">@Html.ActionLink("Uptime Monitor", "Index", "Home")</p>
+            </div>
+            <div class="span8 offset1">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <div class="nav-collapse navbar-responsive-collapse in collapse" style="height: auto;">
+                                <ul class="nav">
+                                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                                    @if (Request.IsAuthenticated)
+                                    {
+                                        <li>@Html.ActionLink("Status", "Status", "Account")</li>
+                                        <li>@Html.ActionLink("Manage", "Manage", "Account")</li>
+                                    }
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <li>@Html.ActionLink("Admin", "Index", "Jobs")</li>
+                                    }
+                                </ul>
+                                <ul class="nav pull-right">
+                                    @Html.Partial("_LoginPartial")
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12" id="body">
+                @RenderBody()
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="navbar navbar-fixed-bottom">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <ul class="nav pull-right footer">
+                            <a href="#feedback" class="btn btn-mini btn-success" style="float: left; margin: 9px 20px 0 0;" data-toggle="modal">Feedback?</a>
+                            <li>&copy; @DateTime.Now.Year - Westropp Studios Uptime Montior</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @Scripts.Render("~/bundles/jqueryui")
+        @RenderSection("scripts", required: false)
+
+    </div>
+</body>
+</html>
