@@ -16,12 +16,16 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Feedback or Feature Suggestions</h3>
         </div>
-        <div class="modal-body">
-            <p>Have some suggestions for features or want to provide some feedback? Use the form below.</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn btn-success">Send</a>
-        </div>
+        @using (Html.BeginForm("Feedback", "Account"))
+        {
+            <div class="modal-body">
+                <label>Have some suggestions for features or want to provide some feedback? Use the form below.</label>
+                <textarea class="span4" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-success">Send</a>
+            </div>
+        }
     </div>
 
     <div class="container">

@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownEmail" xml:space="preserve">
-    <value>Hi there {USER}, &lt;br /&gt;&lt;br /&gt;One of your monitors is offline.&lt;br /&gt;&lt;br /&gt;Site Name: {NAME}&lt;br /&gt;Site URL: {URL}&lt;br /&gt;Status code:{CODE}.&lt;br /&gt;&lt;br /&gt;-- Uptime Monitor</value>
+    <value>Hi there {USER}, &lt;br /&gt;&lt;br /&gt;One or more of your monitors is offline.&lt;br /&gt;&lt;br /&gt;{SITE}&lt;br /&gt;&lt;br /&gt;-- Uptime Monitor</value>
   </data>
 </root>

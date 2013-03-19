@@ -12,6 +12,7 @@ using UptimeMonitoring.Filters;
 using UptimeMonitoring.Models;
 using System.Data.Entity;
 using System.Net;
+using Utilities.Email;
 
 namespace UptimeMonitoring.Controllers
 {
@@ -21,7 +22,7 @@ namespace UptimeMonitoring.Controllers
     {
         //
         // GET: /Account/Status
-
+        
         UptimeMonitorDb site_db = new UptimeMonitorDb();
         UsersContext user_db = new UsersContext();
 
@@ -43,6 +44,8 @@ namespace UptimeMonitoring.Controllers
 
         public ActionResult Create()
         {
+            SelectList freq = new SelectList(new[] {"5","10","15"});
+            ViewData["freq"] = freq;
             return View();
         }
 
@@ -82,9 +85,7 @@ namespace UptimeMonitoring.Controllers
             else
             {
                 var query =
-                    site_db.Sites
-                    .Where(r => r.Id == id && r.user == User.Identity.Name)
-                    .Single();
+                    site_db.Sites.Single(r => r.Id == id && r.user == User.Identity.Name);
 
                 if (query.user == User.Identity.Name)
                 {
@@ -131,6 +132,26 @@ namespace UptimeMonitoring.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        //
+        // POST: /Account/Feedback
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Feedback(string feedback, string returnUrl)
+        {
+            EmailHelper emailer = new EmailHelper();
+            EmailMessage feedbackemail = new EmailMessage()
+            {
+                To = "cory@westroppstudios.com",
+                From = "cory@westroppstudios.com",
+                Subject = "Feedback submission. " + User.Identity.Name,
+                Body = feedback
+            };
+
+            emailer.SendEmail(feedbackemail);
+
+            return RedirectToLocal(returnUrl);
         }
 
         //
@@ -219,7 +240,7 @@ namespace UptimeMonitoring.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
+        public ActionResult Manage(LocalPasswordModel model, UserProfile model2)
         {
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;
@@ -247,6 +268,8 @@ namespace UptimeMonitoring.Controllers
                     {
                         ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
                     }
+
+
                 }
             }
             else

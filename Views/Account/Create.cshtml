@@ -30,8 +30,7 @@
                         @Html.ValidationMessageFor(model => model.site_url)
 
                         @Html.LabelFor(model => model.frequency)
-                        @Html.TextBoxFor(model => model.frequency, new { @Value = "5" })
-                        <span class="help-block">Must be between 5 and 30 minutes</span>
+                        @Html.DropDownListFor(model => model.frequency, ViewData["freq"] as SelectList)
                         @Html.ValidationMessageFor(model => model.frequency)
                         <p>
                             <input class="btn btn-success" type="submit" value="Set Monitor" />

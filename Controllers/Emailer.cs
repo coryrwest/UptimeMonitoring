@@ -16,21 +16,17 @@ namespace UptimeMonitoring.Controllers
     {
         EmailHelper emailer = new EmailHelper();
 
-        public List<string> SendDownEmail(string Name, string Url, string Code)
+        public void SendDownEmail(string Email, string Name, string Url, string Code)
         {
-            List<string> status = new List<string>();
             EmailMessage downEmail = new EmailMessage()
             {
-                To = "cory.r.west@gmail.com",
+                To = Email,
                 From = "cory@westroppstudios.com",
                 Subject = "One of your monitors is offline.",
-                Body = Emails.DownEmail.Replace("{USER}", HttpContext.Current.User.Identity.Name).Replace("{NAME}", Name).Replace("{URL}", Url).Replace("{CODE}", Code)
+                Body = Emails.DownEmail.Replace("{USER}", HttpContext.Current.User.Identity.Name).Replace("{NAME}", Name).Replace("{SITE}", "Site Name: " + Name + "  |  Site URL: " + Url + "  |  Status code:" + Code)
             };
 
             emailer.SendEmail(downEmail);
-            status.Add("Email Sent");
-
-            return status;
         }
     }
 }

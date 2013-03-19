@@ -29,6 +29,8 @@ namespace UptimeMonitoring
             AuthConfig.RegisterAuth();
 
             DataAnnotationsModelValidatorProviderExtensions.RegisterValidationExtensions();
+
+            JobConfig.JobStart();
         }
     }
 }

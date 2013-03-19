@@ -61,7 +61,7 @@ namespace UptimeMonitoring.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi there {USER}, &lt;br /&gt;&lt;br /&gt;One of your monitors is offline.&lt;br /&gt;&lt;br /&gt;Site Name: {NAME}&lt;br /&gt;Site URL: {URL}&lt;br /&gt;Status code:{CODE}.&lt;br /&gt;&lt;br /&gt;-- Uptime Monitor.
+        ///   Looks up a localized string similar to Hi there {USER}, &lt;br /&gt;&lt;br /&gt;One or more of your monitors is offline.&lt;br /&gt;&lt;br /&gt;{SITE}&lt;br /&gt;&lt;br /&gt;-- Uptime Monitor.
         /// </summary>
         internal static string DownEmail {
             get {

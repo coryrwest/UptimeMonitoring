@@ -55,8 +55,8 @@
                             @Html.DisplayFor(model => item.frequency) Minutes
                         </td>
                         <td style="width:100px;">
-                            <a href="#" id="delete">Delete</a>
-                            <span style="display:none;" id="delete-confirm">@Html.ActionLink("Are you sure?", "Delete", new { id = item.Id })</span>
+                            <a href="#" class="delete">Delete</a>
+                            <span style="display:none;" class="delete-confirm">@Html.ActionLink("Are you sure?", "Delete", new { id = item.Id })</span>
                         </td>
                     </tr>
                 }
@@ -70,13 +70,15 @@
 </div>
 
 <script type="text/javascript">
-    $("#delete").click(function () {
-        $("#delete").hide();
-        $("#delete-confirm").show();
+    $(".delete").click(function (event) {
+        var link = $(this);
+        var confirm = $(this).next();
+        $(link).hide();
+        $(confirm).fadeIn();
         setTimeout(function () {
-            $("#delete-confirm").hide();
-            $("#delete").show();
-        }, 4000)
+            $(confirm).hide();
+            $(link).fadeIn();
+        }, 4000);
     });
 
 </script>
