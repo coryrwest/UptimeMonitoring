@@ -11,28 +11,58 @@
 <div class="row-fluid">
     <div class="span12">
         <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.site_name)
-                    </th>
-                    <th class="no-phone">
-                        @Html.DisplayNameFor(model => model.site_url)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.site_last_check)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.site_online)
-                    </th>
-                    <th class="no-phone">
-                        @Html.DisplayNameFor(model => model.result)
-                    </th>
-                    <th class="no-phone">
-                        @Html.DisplayNameFor(model => model.frequency)
-                    </th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.site_name)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.site_url)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.site_last_check)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.site_online)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.result)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.frequency)
+                </th>
+                <th></th>
+            </tr>
 
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <span style="display: none;" id="site-id">@item.Id</span>
+                        @Html.DisplayFor(model => item.site_name)
+                    </td>
+                    <td class="no-phone">
+                        @Html.DisplayFor(model => item.site_url)
+                    </td>
+                    <td class="last-check">
+                        @Html.DisplayFor(model => item.site_last_check)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.site_online)
+                    </td>
+                    <td class="no-phone">
+                        @Html.DisplayFor(model => item.result)
+                    </td>
+                    <td class="no-phone">
+                        @Html.DisplayFor(model => item.frequency) Minutes
+                    </td>
+                    <td style="width: 100px;">
+                        <a href="#" class="delete">Delete</a>
+                        <span style="display: none;" class="delete-confirm">@Html.ActionLink("Are you sure?", "Delete", new { id = item.Id })</span>
+                    </td>
+                </tr>
+            }
+
+<<<<<<< HEAD
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -62,9 +92,12 @@
                 }
 
             </table>
+=======
+        </table>
+>>>>>>> Partial Ajax supprt
         <p>
             @Html.ActionLink("Create New Monitor", "Create", null, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Update Now", "CheckSites", null, new { @class = "btn btn-information" })
+            <button class="btn btn-information" id="update">Update Now</button>
         </p>
     </div>
 </div>
@@ -81,4 +114,21 @@
         }, 4000);
     });
 
+
+    $("#update").click(function () {
+        var urls = "";
+        $(".site-id").each(function() {
+            var url = $(this).text();
+            urls += url + ",";
+        });
+        alert(urls);
+            // Send an AJAX request
+            $.getJSON("/API/Monitor/StatusUpdate?ids=5",
+            function (data) {
+                // On success, 'data' contains a list of products.
+                $.each(data, function (num) {
+                    alert(num);
+                });
+            });
+        });
 </script>

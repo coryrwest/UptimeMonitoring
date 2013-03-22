@@ -8,6 +8,12 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.modal').appendTo($('body'));
+            $("#createModal").modal('hide');
+        });
+    </script>
 </head>
 <body>
 
