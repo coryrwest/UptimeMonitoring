@@ -123,4 +123,9 @@ namespace UptimeMonitoring.Models
         public int frequency { get; set; }
     }
 
+    public class StatusModel
+    {
+        public SiteModel CreateSiteModel { get; set; }
+        public List<SiteModel> ListSiteModel { get; set; } 
+    }
 }

@@ -33,42 +33,53 @@ namespace UptimeMonitoring.Controllers
                 .OrderBy(r => r.site_last_check)
                 .Where(r => r.user == User.Identity.Name);
 
-            if (model.ToList().Count() == 0)
-                return RedirectToAction("Create");
-            else
-                return View(model);
-        }
+            StatusModel statusModel = new StatusModel();
+            List<SiteModel> listSiteModel = new List<SiteModel>();
+            SiteModel createSiteModel = new SiteModel();
 
-        //
-        // GET: /Account/Create
+            foreach (SiteModel siteModel in model)
+            {
+                listSiteModel.Add(siteModel);
+            }
 
+<<<<<<< HEAD
         public ActionResult Create()
         {
             SelectList freq = new SelectList(new[] {"5","10","15"});
             ViewData["freq"] = freq;
             return View();
+=======
+            statusModel.ListSiteModel = listSiteModel;
+            statusModel.CreateSiteModel = createSiteModel;
+
+            SelectList freq = new SelectList(new[] { "5", "10", "15" });
+            ViewData["freq"] = freq;
+
+            return View(statusModel);
+>>>>>>> Ajax update and create
         }
 
         //
-        // POST: /Account/Create
+        // POST: /Account/Status
 
         [HttpPost]
-        public ActionResult Create(SiteModel model)
+        public ActionResult Status(StatusModel model)
         {
+            SiteModel createModel = model.CreateSiteModel;
             var query = site_db.Sites;
-            model.user = User.Identity.Name;
+            createModel.user = User.Identity.Name;
 
             if (ModelState.IsValid)
             {
-                query.Add(model);
+                query.Add(createModel);
 
                 site_db.SaveChanges();
 
-                return RedirectToAction("CheckSites");
+                return Content("Success");
             }
             else
             {
-                return View();
+                return Content("Fail");
             }
         }
 
@@ -100,18 +111,6 @@ namespace UptimeMonitoring.Controllers
 
                 return RedirectToAction("Status");
             }
-        }
-
-        //
-        //POST: /Account/CheckSites
-
-        [HttpGet]
-        public ActionResult CheckSites()
-        {
-            SiteCheck check = new SiteCheck();
-            check.CheckSite(User.Identity.Name);
-
-            return RedirectToAction("Status");
         }
 
         //

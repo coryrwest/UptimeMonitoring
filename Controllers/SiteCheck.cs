@@ -40,6 +40,35 @@ namespace UptimeMonitoring.Controllers
                     SendEmail("cory.r.west@gmail.com", site.site_name, site.site_url, site.result.ToString());
                 }
             }
+<<<<<<< HEAD
+=======
+            site_db.SaveChanges();
+        }
+
+        public void CheckOneSite(int id)
+        {
+            var query =
+                site_db.Sites
+                .Where(r => r.Id == id);
+
+            foreach (SiteModel site in query)
+            {
+                var request = (HttpWebRequest)WebRequest.Create(site.site_url);
+                request.Method = "HEAD";
+                var response = (HttpWebResponse)request.GetResponse();
+                site.result = (int)response.StatusCode;
+                DateTime Now = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+                string NowFormatted = Now.ToString("M/d/yy - h:mm:ss tt");
+                site.site_last_check = NowFormatted;
+                if (site.result >= 200 && site.result <= 299)
+                    site.site_online = "Yes";
+                else
+                {
+                    site.site_online = "No";
+                    SendEmail("cory.r.west@gmail.com", site.site_name, site.site_url, site.result.ToString());
+                }
+            }
+>>>>>>> Ajax update and create
             site_db.SaveChanges();
         }
 

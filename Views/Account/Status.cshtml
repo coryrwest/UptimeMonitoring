@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UptimeMonitoring.Models.SiteModel>
+﻿@model UptimeMonitoring.Models.StatusModel
 @{
     ViewBag.Title = "Status";
 }
@@ -8,11 +8,40 @@
     </div>
 </div>
 
+<div class="modal hide fade" id="createModel">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Create a Monitor</h3>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm())
+                {
+            @Html.ValidationSummary(true)
+            @Html.ValidationSummary()
+
+            @Html.LabelFor(model => model.CreateSiteModel.site_name)
+            @Html.TextBoxFor(model => model.CreateSiteModel.site_name)
+
+            @Html.LabelFor(model => model.CreateSiteModel.site_url)
+            @Html.TextBoxFor(model => model.CreateSiteModel.site_url, new { @Value = "http://"})
+            @Html.ValidationMessageFor(model => model.CreateSiteModel.site_url)
+
+            @Html.LabelFor(model => model.CreateSiteModel.frequency)
+            @Html.DropDownListFor(model => model.CreateSiteModel.frequency, ViewData["freq"] as SelectList)
+            @Html.ValidationMessageFor(model => model.CreateSiteModel.frequency)
+            <p>
+                <input id="create-button" class="btn btn-success" type="button" value="Set Monitor" />
+            </p>
+                }
+    </div>
+</div>
+
 <div class="row-fluid">
     <div class="span12">
         <table class="table">
             <tr>
                 <th>
+<<<<<<< HEAD
                     @Html.DisplayNameFor(model => model.site_name)
                 </th>
                 <th class="no-phone">
@@ -29,15 +58,41 @@
                 </th>
                 <th class="no-phone">
                     @Html.DisplayNameFor(model => model.frequency)
+=======
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_name)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_url)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_last_check)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_online)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().result)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().frequency)
+>>>>>>> Ajax update and create
                 </th>
                 <th></th>
             </tr>
 
+<<<<<<< HEAD
             @foreach (var item in Model)
             {
                 <tr>
                     <td>
                         <span style="display: none;" id="site-id">@item.Id</span>
+=======
+            @foreach (var item in Model.ListSiteModel)
+            {
+                <tr>
+                    <td>
+                        <span style="display: none;" class="site-id">@item.Id</span>
+>>>>>>> Ajax update and create
                         @Html.DisplayFor(model => item.site_name)
                     </td>
                     <td class="no-phone">
@@ -62,6 +117,7 @@
                 </tr>
             }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                 @foreach (var item in Model)
                 {
@@ -97,6 +153,12 @@
 >>>>>>> Partial Ajax supprt
         <p>
             @Html.ActionLink("Create New Monitor", "Create", null, new { @class = "btn btn-primary" })
+=======
+        </table>
+        <p>
+            <a href="#createModel" role="button" class="btn btn-primary" data-toggle="modal">Create New Monitor</a>
+            @*@Html.ActionLink("Create New Monitor", "Create", null, new { @class = "btn btn-primary" })*@
+>>>>>>> Ajax update and create
             <button class="btn btn-information" id="update">Update Now</button>
         </p>
     </div>
@@ -117,6 +179,7 @@
 
     $("#update").click(function () {
         var urls = "";
+<<<<<<< HEAD
         $(".site-id").each(function() {
             var url = $(this).text();
             urls += url + ",";
@@ -131,4 +194,42 @@
                 });
             });
         });
+=======
+        $(".site-id").each(function () {
+            var url = $(this).text();
+            urls += url + ",";
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "/API/Monitor/StatusUpdate?ids=" + urls.slice(0, -1),
+            data: '',
+            error: function (xhr, stats, error) {
+                alert(error);
+            },
+            success: function (response) {
+                //AJAX refresh eventually
+                location.reload();
+            }
+        });
+    });
+
+    $("#create-button").click(function () {
+        var $form = $(this).parents('form');
+        $.ajax({
+            type: 'POST',
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            error: function (xhr, stats, error) {
+                alert(error);
+            },
+            success: function (response) {
+                $('#createModel').modal('hide');
+                $(this).closest('form').find("input[type=text], textarea").val("");
+                //AJAX refresh eventually
+                location.reload();
+            }
+        });
+    });
+>>>>>>> Ajax update and create
 </script>
