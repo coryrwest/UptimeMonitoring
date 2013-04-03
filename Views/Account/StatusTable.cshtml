@@ -1,0 +1,54 @@
+﻿@model UptimeMonitoring.Models.StatusModel
+<table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_name)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_url)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_last_check)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().site_online)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().result)
+                </th>
+                <th class="no-phone">
+                    @Html.DisplayNameFor(model => model.ListSiteModel.Single().frequency)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.ListSiteModel)
+            {
+                <tr>
+                    <td>
+                        <span style="display: none;" class="site-id">@item.Id</span>
+                        @Html.DisplayFor(model => item.site_name)
+                    </td>
+                    <td class="no-phone">
+                        @Html.DisplayFor(model => item.site_url)
+                    </td>
+                    <td class="last-check">
+                        @Html.DisplayFor(model => item.site_last_check)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.site_online)
+                    </td>
+                    <td class="no-phone">
+                        @Html.DisplayFor(model => item.result)
+                    </td>
+                    <td class="no-phone">
+                        @Html.DisplayFor(model => item.frequency) Minutes
+                    </td>
+                    <td style="width: 100px;">
+                        <a href="#" class="delete">Delete</a>
+                        <a href="#" class="delete-confirm" style="display: none;">Are You Sure?</a>
+                    </td>
+                </tr>
+            }
+
+        </table>

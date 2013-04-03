@@ -6224,3 +6224,8 @@ button.close {
     overflow: visible !important;
   }
 }
+#no-monitors {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0 25px 0;
+}

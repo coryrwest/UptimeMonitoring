@@ -41,7 +41,10 @@ namespace UptimeMonitoring.Controllers
                 }
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> Mostly full AJAX
             site_db.SaveChanges();
         }
 
@@ -68,7 +71,10 @@ namespace UptimeMonitoring.Controllers
                     SendEmail("cory.r.west@gmail.com", site.site_name, site.site_url, site.result.ToString());
                 }
             }
+<<<<<<< HEAD
 >>>>>>> Ajax update and create
+=======
+>>>>>>> Mostly full AJAX
             site_db.SaveChanges();
         }
 

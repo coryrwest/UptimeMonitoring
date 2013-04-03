@@ -15,6 +15,7 @@
     </div>
     <div class="modal-body">
         @using (Html.BeginForm())
+<<<<<<< HEAD
                 {
             @Html.ValidationSummary(true)
             @Html.ValidationSummary()
@@ -159,12 +160,60 @@
             <a href="#createModel" role="button" class="btn btn-primary" data-toggle="modal">Create New Monitor</a>
             @*@Html.ActionLink("Create New Monitor", "Create", null, new { @class = "btn btn-primary" })*@
 >>>>>>> Ajax update and create
+=======
+        {
+            @Html.ValidationSummary(true)
+            @Html.ValidationSummary()
+
+            @Html.LabelFor(model => model.CreateSiteModel.site_name)
+            @Html.TextBoxFor(model => model.CreateSiteModel.site_name)
+
+            @Html.LabelFor(model => model.CreateSiteModel.site_url)
+            @Html.TextBoxFor(model => model.CreateSiteModel.site_url, new { @Value = "http://" })
+            @Html.ValidationMessageFor(model => model.CreateSiteModel.site_url)
+
+            @Html.LabelFor(model => model.CreateSiteModel.frequency)
+            @Html.DropDownListFor(model => model.CreateSiteModel.frequency, ViewData["freq"] as SelectList)
+            @Html.ValidationMessageFor(model => model.CreateSiteModel.frequency)
+            <p>
+                <input id="create-button" class="btn btn-success" type="button" value="Set Monitor" />
+            </p>
+        }
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="status-table">
+            @Html.Partial("StatusTable")
+            <div style="display: none;" id="no-monitors"><h4>You have no monitors! Click the big blue button below to add some.</h4></div>
+        </div>
+        <p>
+            <a href="#createModel" role="button" class="btn btn-primary" data-toggle="modal">Create New Monitor</a>
+            @*@Html.ActionLink("Create New Monitor", "Create", null, new { @class = "btn btn-primary" })*@
+>>>>>>> Mostly full AJAX
             <button class="btn btn-information" id="update">Update Now</button>
         </p>
     </div>
 </div>
 
 <script type="text/javascript">
+<<<<<<< HEAD
+=======
+    $(document).ready(function () {
+        CheckRows();
+    });
+
+    function CheckRows() {
+        var rowCount = $('.table tr').size();
+        if (rowCount < 2) {
+            $('#no-monitors').show();
+        } else {
+            $('#no-monitors').hide();
+        }
+    }
+
+>>>>>>> Mostly full AJAX
     $(".delete").click(function (event) {
         var link = $(this);
         var confirm = $(this).next();
@@ -174,6 +223,7 @@
             $(confirm).hide();
             $(link).fadeIn();
         }, 4000);
+<<<<<<< HEAD
     });
 
 
@@ -220,11 +270,73 @@
             type: 'POST',
             url: $form.attr('action'),
             data: $form.serialize(),
+=======
+
+        var row = link.closest('tr');
+        var id = link.closest('tr').children().children(".site-id").text();
+
+        $(".delete-confirm").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Delete", "Account")',
+                data: 'id=' + id,
+                error: function (xhr, stats, error) {
+                    alert(error);
+                },
+                success: function (response) {
+                    row.fadeOut('slow', function () {
+                        row.remove();
+                        CheckRows();
+                    });
+                }
+            });
+        });
+    });
+
+
+    $("#update").click(function () {
+        var button = $(this);
+        button.attr("disabled", "disabled");
+        var urls = "";
+        $(".site-id").each(function () {
+            var url = $(this).text();
+            urls += url + ",";
+        });
+
+        if (urls.length < 1) {
+            button.removeAttr("disabled");
+            alert("You have no monitors to check");
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("StatusTable", "Account")',
+                data: 'ids=' + urls.slice(0, -1),
+                error: function (xhr, stats, error) {
+                    alert(error);
+                    button.removeAttr("disabled");
+                },
+                success: function (response) {
+                    $('.status-table').html(response);
+                    button.removeAttr("disabled");
+                }
+            });
+        }
+
+    });
+
+    $("#create-button").click(function () {
+        var form = $(this).parents('form');
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: form.serialize(),
+>>>>>>> Mostly full AJAX
             error: function (xhr, stats, error) {
                 alert(error);
             },
             success: function (response) {
                 $('#createModel').modal('hide');
+<<<<<<< HEAD
                 $(this).closest('form').find("input[type=text], textarea").val("");
                 //AJAX refresh eventually
                 location.reload();
@@ -232,4 +344,12 @@
         });
     });
 >>>>>>> Ajax update and create
+=======
+                form.find("input").val("");
+                //AJAX refresh eventually
+                //location.reload();
+            }
+        });
+    });
+>>>>>>> Mostly full AJAX
 </script>

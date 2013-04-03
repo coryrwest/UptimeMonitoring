@@ -20,7 +20,7 @@ namespace UptimeMonitoring.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
-        //
+        // REFACTOR CRAPPY CODING
         // GET: /Account/Status
         
         UptimeMonitorDb site_db = new UptimeMonitorDb();
@@ -43,12 +43,15 @@ namespace UptimeMonitoring.Controllers
             }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         public ActionResult Create()
         {
             SelectList freq = new SelectList(new[] {"5","10","15"});
             ViewData["freq"] = freq;
             return View();
 =======
+=======
+>>>>>>> Mostly full AJAX
             statusModel.ListSiteModel = listSiteModel;
             statusModel.CreateSiteModel = createSiteModel;
 
@@ -56,7 +59,10 @@ namespace UptimeMonitoring.Controllers
             ViewData["freq"] = freq;
 
             return View(statusModel);
+<<<<<<< HEAD
 >>>>>>> Ajax update and create
+=======
+>>>>>>> Mostly full AJAX
         }
 
         //
@@ -75,23 +81,68 @@ namespace UptimeMonitoring.Controllers
 
                 site_db.SaveChanges();
 
+<<<<<<< HEAD
                 return Content("Success");
+=======
+                return PartialView("StatusTable");
+>>>>>>> Mostly full AJAX
             }
             else
             {
                 return Content("Fail");
+<<<<<<< HEAD
+=======
             }
+        }
+
+        // REFACTOR CRAPPY CODING
+        // GET: /Account/StatusTable
+
+        public ActionResult StatusTable(string ids)
+        {
+            List<int> idsToCheck = new List<int>();
+
+            string[] idsList = ids.Split(',');
+
+            foreach (string s in idsList)
+            {
+                idsToCheck.Add(Convert.ToInt32(s));
+            }
+
+            SiteCheck check = new SiteCheck();
+            foreach (int id in idsToCheck)
+            {
+                check.CheckOneSite(id);
+            }
+
+            var model =
+                site_db.Sites
+                .OrderBy(r => r.site_last_check)
+                .Where(r => r.user == User.Identity.Name);
+
+            StatusModel statusModel = new StatusModel();
+            List<SiteModel> listSiteModel = new List<SiteModel>();
+
+            foreach (SiteModel siteModel in model)
+            {
+                listSiteModel.Add(siteModel);
+>>>>>>> Mostly full AJAX
+            }
+
+            statusModel.ListSiteModel = listSiteModel;
+
+            return PartialView(statusModel);
         }
 
         //
         // DELETE: /Account/Delete/ID
 
-        [HttpGet]
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public string Delete(int? id)
         {
             if (id == null)
             {
-                return RedirectToAction("Status");
+                return "No Such ID";
             }
             else
             {
@@ -104,12 +155,12 @@ namespace UptimeMonitoring.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Status");
+                    return "Fail";
                 }
 
                 site_db.SaveChanges();
 
-                return RedirectToAction("Status");
+                return "Success";
             }
         }
 
