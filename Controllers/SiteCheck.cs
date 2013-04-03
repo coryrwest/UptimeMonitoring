@@ -25,10 +25,17 @@ namespace UptimeMonitoring.Controllers
 
             foreach (SiteModel site in query)
             {
-                var request = (HttpWebRequest)WebRequest.Create(site.site_url);
+                var request = (HttpWebRequest) WebRequest.Create(site.site_url);
                 request.Method = "HEAD";
-                var response = (HttpWebResponse)request.GetResponse();
-                site.result = (int)response.StatusCode;
+                try
+                {
+                    var response = (HttpWebResponse) request.GetResponse();
+                    site.result = (int) response.StatusCode;
+                }
+                catch (Exception)
+                {
+                    site.result = 0;
+                }
                 DateTime Now = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
                 string NowFormatted = Now.ToString("M/d/yy - h:mm:ss tt");
                 site.site_last_check = NowFormatted;
@@ -40,11 +47,6 @@ namespace UptimeMonitoring.Controllers
                     SendEmail("cory.r.west@gmail.com", site.site_name, site.site_url, site.result.ToString());
                 }
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Mostly full AJAX
             site_db.SaveChanges();
         }
 
@@ -71,10 +73,6 @@ namespace UptimeMonitoring.Controllers
                     SendEmail("cory.r.west@gmail.com", site.site_name, site.site_url, site.result.ToString());
                 }
             }
-<<<<<<< HEAD
->>>>>>> Ajax update and create
-=======
->>>>>>> Mostly full AJAX
             site_db.SaveChanges();
         }
 
