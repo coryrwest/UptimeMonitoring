@@ -37,7 +37,7 @@ namespace UptimeMonitoring.Controllers
                     site.result = 0;
                 }
                 DateTime Now = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
-                string NowFormatted = Now.ToString("M/d/yy - h:mm:ss tt");
+                string NowFormatted = Now.ToString("M/d/yy - h:mm tt");
                 site.site_last_check = NowFormatted;
                 if (site.result >= 200 && site.result <= 299)
                     site.site_online = "Yes";
@@ -60,10 +60,17 @@ namespace UptimeMonitoring.Controllers
             {
                 var request = (HttpWebRequest)WebRequest.Create(site.site_url);
                 request.Method = "HEAD";
-                var response = (HttpWebResponse)request.GetResponse();
-                site.result = (int)response.StatusCode;
+                try
+                {
+                    var response = (HttpWebResponse)request.GetResponse();
+                    site.result = (int)response.StatusCode;
+                }
+                catch (Exception)
+                {
+                    site.result = 0;
+                }
                 DateTime Now = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
-                string NowFormatted = Now.ToString("M/d/yy - h:mm:ss tt");
+                string NowFormatted = Now.ToString("M/d/yy - h:mm tt");
                 site.site_last_check = NowFormatted;
                 if (site.result >= 200 && site.result <= 299)
                     site.site_online = "Yes";
@@ -80,16 +87,24 @@ namespace UptimeMonitoring.Controllers
         {
             var query =
                 site_db.Sites
-                .Where(r => Convert.ToInt32(r.frequency) == Frequency);
+                .Where(r => r.frequency == Frequency);
 
             foreach (SiteModel site in query)
             {
                 var request = (HttpWebRequest)WebRequest.Create(site.site_url);
                 request.Method = "HEAD";
-                var response = (HttpWebResponse)request.GetResponse();
-                site.result = (int)response.StatusCode;
-                DateTime Now = DateTime.Now;
-                site.site_last_check = DateTime.SpecifyKind(Now, DateTimeKind.Local).ToString();
+                try
+                {
+                    var response = (HttpWebResponse)request.GetResponse();
+                    site.result = (int)response.StatusCode;
+                }
+                catch (Exception)
+                {
+                    site.result = 0;
+                }
+                DateTime Now = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+                string NowFormatted = Now.ToString("M/d/yy - h:mm tt");
+                site.site_last_check = NowFormatted;
                 if (site.result >= 200 && site.result <= 299)
                     site.site_online = "Yes";
                 else

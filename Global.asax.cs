@@ -30,7 +30,7 @@ namespace UptimeMonitoring
 
             DataAnnotationsModelValidatorProviderExtensions.RegisterValidationExtensions();
 
-            JobConfig.JobStart();
+            JobsConfig.JobStart();
         }
     }
 }

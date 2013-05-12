@@ -31,5 +31,20 @@ namespace UptimeMonitoring.API
 
             return "Success";
         }
+
+        [HttpGet]
+        public int SiteCheck(int freq, string code)
+        {
+            if (code == "8vn3879hc3")
+            {
+                SiteCheck check = new SiteCheck();
+                check.CheckSite(freq);
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }
